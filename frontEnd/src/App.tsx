@@ -6,10 +6,11 @@ type noteType = {
   id: string;
   title: string;
   description?: string;
-}
+};
 
 // let title = "";
-const App = () => {
+const App = () =>
+{
   // const [title, setTitle] = useState("");
   // const [description, setDescription] = useState("");
 
@@ -24,13 +25,16 @@ const App = () => {
 
   const handleChange: ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
-  > = ({ target }) => {
-    const { name, value } = target;
-    setValues({ ...values, [name]: value });
-  };
+  > = ({ target }) =>
+    {
+      const { name, value } = target;
+      setValues({ ...values, [name]: value });
+    };
 
-  useEffect(() => {
-    const fetchNotes = async () => {
+  useEffect(() =>
+  {
+    const fetchNotes = async () =>
+    {
       // call the api and fetch notes
       const { data } = await axios("http://localhost:8000/note");
       setNotes(data.notes);
@@ -42,9 +46,11 @@ const App = () => {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <form
-        onSubmit={async (evt) => {
+        onSubmit={async (evt) =>
+        {
           evt.preventDefault();
-          if (selectedNoteId) {
+          if (selectedNoteId)
+          {
             // then we want to update
             const { data } = await axios.patch(
               "http://localhost:8000/note/" + selectedNoteId,
@@ -54,8 +60,10 @@ const App = () => {
               }
             );
 
-            const updatedNotes = notes.map((note) => {
-              if (note.id === selectedNoteId) {
+            const updatedNotes = notes.map((note) =>
+            {
+              if (note.id === selectedNoteId)
+              {
                 note.title = data.note.title;
                 note.description = data.note.description;
               }
@@ -79,12 +87,12 @@ const App = () => {
         }}
         className="space-y-6 bg-white shadow-md rounded p-5"
       >
-        <div>
+        {/* <div>
           <span>{count} </span>
           <button type="button" onClick={() => setCount(count + 1)}>
             Click Me
           </button>
-        </div>
+        </div> */}
         <h1 className="font-semibold text-2xl text-center">Note Application</h1>
         <div>
           <input
@@ -113,27 +121,34 @@ const App = () => {
       </form>
 
       {/* Note Items */}
-      {notes.map((note) => {
+      {notes.map((note) =>
+      {
         return (
           <NoteItem
-            onViewClick={() => {
-              if (noteToView) {
-                setNoteToView(undefined)
-              } else {
-                setNoteToView(note)
+            onViewClick={() =>
+            {
+              if (noteToView)
+              {
+                setNoteToView(undefined);
+              } else
+              {
+                setNoteToView(note);
               }
             }}
             description={noteToView?.id === note.id ? noteToView?.description : ""}
-            onEditClick={() => {
+            onEditClick={() =>
+            {
               setSelectedNoteId(note.id);
               setValues({
                 title: note.title,
                 description: note.description || "",
               });
             }}
-            onDeleteClick={async () => {
+            onDeleteClick={async () =>
+            {
               const result = confirm("Are your sure");
-              if (result) { // if result is true
+              if (result)
+              { // if result is true
                 // then we want to delete
                 await axios.delete("http://localhost:8000/note/" + note.id);
 
